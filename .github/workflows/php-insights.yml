@@ -1,0 +1,50 @@
+name: Php insights
+on:
+  pull_request:
+    branches:
+      - dev
+      - "!dependabot/*"
+      - "!dependabot/*/**"
+    paths:
+      - "**.php"
+      - ".github/workflows/php-insights.yml"
+
+jobs:
+  phpinsights:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [8.2]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.composer/cache/files
+          key: dependencies-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: curl, gd, json, mbstring, mysql, xml
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+
+      - name: Get all changed .php file(s)
+        id: changed-files
+        uses: tj-actions/changed-files@v41
+        with:
+          files: |
+            **.php
+
+      - name: Run PHP Insights
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          php artisan insights ${{ steps.changed-files.outputs.all_changed_files }} -n --ansi --format=github-action --min-quality=90 --min-complexity=60 --min-architecture=90 --min-style=90

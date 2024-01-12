@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ManageUsersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,5 +18,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
+
+Route::group(['middleware' => ['admin']], function () {
+    Route::get('list-users', [ManageUsersController::class, 'index']);
+});
 
 

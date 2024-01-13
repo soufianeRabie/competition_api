@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ManageUsersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,12 +18,5 @@ use Illuminate\Support\Facades\Route;
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
-Route::group(['middleware' => ['admin']], function () {
-    Route::get('users', [ManageUsersController::class, 'index']);
-    Route::get('users/{id}', [ManageUsersController::class, 'show']);
-    Route::post('users', [ManageUsersController::class, 'store']);
-    Route::put('users/{id}', [ManageUsersController::class, 'update']);
-    Route::delete('users/{id}', [ManageUsersController::class, 'destroy']);
-});
 
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ManageUsersController;
 use App\Http\Controllers\ProfileSettingController;
 use Illuminate\Support\Facades\Route;
 
@@ -11,3 +12,5 @@ Route::post('logout', [AuthController::class, 'logout']);
 Route::prefix('profile')->controller(ProfileSettingController::class)->group(function () {
     Route::put('change-password', 'updatePassword');
 });
+
+Route::apiResource('users', ManageUsersController::class);

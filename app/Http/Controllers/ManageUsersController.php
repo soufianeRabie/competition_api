@@ -2,78 +2,83 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ManageUserRequest;
 use App\Http\Requests\RegisterUserRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class ManageUsersController extends Controller
 {
     /**
-    * Display a listing of the resource.
+    * Display a list of users.
     *
     * @return \Illuminate\Http\Response
     */
     public function index()
     {
-        $users = User::all();
-        return response()->json(['users' => $users]);
+        return UserResource::collection(User::all());
     }
 
-    public function store(RegisterUserRequest $request)
+    /**
+     * Store a newly created user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(ManageUserRequest $request)
     {
-        $data = $request->validated();
+        $formFields = $request->validated();
+        $formFields['password'] = Hash::make($request->password);
+        $user = User::create($formFields);
 
-        User::create($data);
-
-        return response()->json([
-            'message' => 'User Added.'
-        ], 201);
+        return new UserResource($user);
     }
 
-    public function show($id)
+    /**
+     * Display specified user.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function show(User $user)
     {
-        $user = User::find($id);
-        if (!empty($user)) {
-            return response()->json($user);
-        }
-
-        return response()->json([
-            'message' => 'User not found.'
-        ], 404);
+        return new UserResource($user);
     }
 
-    public function update(Request $request, $id)
+     /**
+     * Update the specified user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, User $user)
     {
-        if (User::where('id', $id)->exists()) {
-
-            $data = $request->all();
+        $formFields = $request->all();
         
-            User::whereId($id)->update($data);
+        if ($request->password != null)
+            $formFields['password'] = Hash::make($request->password);
+        
+        $user->fill($formFields)->save();
 
-            return response()->json([
-                'message' => 'User updated.'
-            ], 200);
-        }
-
-        return response()->json([
-            'message' => 'User not found.'
-        ], 404);
+        return new UserResource($user);
     }
 
-    public function destroy($id)
+    /**
+     * Remove the specified user.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(User $user)
     {
-        if (User::where('id', $id)->exists()) {
-            $user = User::find($id);
-            $user->delete();
-
-            return response()->json([
-                'message' => 'User Deleted.'
-            ], 202);
-        }
+        $user->delete();
 
         return response()->json([
-            'message' => 'User not found.'
-        ], 404);
+            'message'=> "The user has been deleted."
+        ]);
     }
 }

@@ -52,7 +52,7 @@ class AuthController extends Controller
     public function user()
     {
         $user = Auth::user();
-        $user = $user->only(['id', 'email', 'role']);
+        $user = $user->only(['id', 'email', 'role_id']);
 
         return response()->json($user);
     }

@@ -38,7 +38,7 @@ class AuthController extends Controller
         $expiresAt = app()->isLocal() ? now()->addYear() : now()->addDay();
         $token     = $request->user()->createToken($tokenName, ['*'], $expiresAt);
 
-        return response()->json(['token' => $token->plainTextToken]);
+        return response()->json(['token' => $token->plainTextToken , 'userg'=>Auth::user()]);
     }
 
     public function logout()

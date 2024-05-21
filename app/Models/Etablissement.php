@@ -5,17 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Domaine extends Model
+class Etablissement extends Model
 {
     use HasFactory;
-<<<<<<< HEAD
-}
-=======
 
     protected $fillable = [
-        'nom_domaine', 'status', 'created_at', 'updated_at'
+        'users_id', 'regions_id', 'nom_efp', 'adresse', 'tel', 'ville', 'status', 'updated_at', 'created_at'
     ];
 
     // Define relationships if any
 }
->>>>>>> github/master

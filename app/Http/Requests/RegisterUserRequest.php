@@ -18,8 +18,6 @@ class RegisterUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => ['bail', 'required', 'string', 'min:3', 'max:50'],
-            'last_name' => ['bail', 'required', 'string', 'min:3', 'max:50'],
             'email' => ['bail', 'required', 'email', 'min:3', 'max:50', 'unique:users,email'],
             'password' => ['bail', 'required', 'string', 'min:6'],
         ];

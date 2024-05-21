@@ -20,16 +20,12 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'first_name',
-        'last_name',
+        'prenom',
+        'nom',
         'nationality',
-        'address',
-        'phone_number',
-        'surfing_level',
-        'dietary_requirement',
-        'role',
         'email',
         'password',
+        'role_id'
     ];
 
     /**
@@ -55,17 +51,10 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        if ($this->role === 4) {
-            return true;
-        }
-        return false;
-    }
-
-    public function isEmployee()
-    {
         if ($this->role === 1) {
             return true;
         }
         return false;
     }
+
 }

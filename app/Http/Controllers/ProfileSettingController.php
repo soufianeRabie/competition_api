@@ -9,7 +9,11 @@ use Illuminate\Support\Facades\Hash;
 
 class ProfileSettingController extends Controller
 {
+<<<<<<< HEAD
        public function updatePassword(UpdatePasswordRequest $request)
+=======
+    public function updatePassword(UpdatePasswordRequest $request)
+>>>>>>> github/master
     {
         $data = $request->validated();
 
@@ -24,4 +28,8 @@ class ProfileSettingController extends Controller
 
         return response()->json(true);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> github/master

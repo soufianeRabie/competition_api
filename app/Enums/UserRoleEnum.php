@@ -2,10 +2,11 @@
 
 namespace App\Enums;
 
-enum  UserRoleEnum :int
+enum  UserRoleEnum :string
 {
-    case REGIONAUX = 0;
-    case CENTREAUX = 1;
-    case LOCAUX = 2;
-    case ADMIN = 4;
+    case UTILISATEUR_CENTRAL = 'utilisateur central';
+    case UTILISATEUR_RÉGIONAL = 'utilisateur régional';
+    case UTILISATEUR_LOCAL = 'utilisateur local';
+    case INTERVENANT = 'intervenant';
+    case ENTREPRISE = 'entreprise';
 }

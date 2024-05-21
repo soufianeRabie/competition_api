@@ -11,7 +11,7 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $fillable = [
-        'roles_id', 'first_name', 'last_name', 'email', 'password', 'remember_token', 'created_at', 'updated_at'
+        'roles_id', 'prenom', 'nom', 'email', 'password', 'remember_token', 'created_at', 'updated_at'
     ];
 
     // Define relationships if any

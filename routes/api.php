@@ -19,4 +19,11 @@ Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
 
+Route::get('getInit' ,[\App\Http\Controllers\InitalController::class ,'init'] );
+Route::resources([
+    'intervenants'=>\App\Http\Controllers\IntervenantController::class,
+    'actions'=>\App\Http\Controllers\ActionController::class,
+    'regions'=>\App\Http\Controllers\RegionController::class
+]);
+
 

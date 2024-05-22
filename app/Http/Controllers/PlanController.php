@@ -12,7 +12,8 @@ class PlanController extends Controller
      */
     public function index()
     {
-        //
+        $plans = Plan::all();
+        return response()->json($plans);
     }
 
     /**
@@ -20,7 +21,8 @@ class PlanController extends Controller
      */
     public function create()
     {
-        //
+        // Typically, for an API, you wouldn't need this method.
+        // The form for creating a resource would be handled by the frontend.
     }
 
     /**
@@ -28,7 +30,19 @@ class PlanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric',
+        ]);
+
+        $plan = new Plan();
+        $plan->name = $request->name;
+        $plan->description = $request->description;
+        $plan->price = $request->price;
+        $plan->save();
+
+        return response()->json(['message' => 'Plan created successfully', 'plan' => $plan], 201);
     }
 
     /**
@@ -36,7 +50,7 @@ class PlanController extends Controller
      */
     public function show(Plan $plan)
     {
-        //
+        return response()->json($plan);
     }
 
     /**
@@ -44,7 +58,8 @@ class PlanController extends Controller
      */
     public function edit(Plan $plan)
     {
-        //
+        // Typically, for an API, you wouldn't need this method.
+        // The form for editing a resource would be handled by the frontend.
     }
 
     /**
@@ -52,7 +67,18 @@ class PlanController extends Controller
      */
     public function update(Request $request, Plan $plan)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric',
+        ]);
+
+        $plan->name = $request->name;
+        $plan->description = $request->description;
+        $plan->price = $request->price;
+        $plan->save();
+
+        return response()->json(['message' => 'Plan updated successfully', 'plan' => $plan]);
     }
 
     /**
@@ -60,6 +86,7 @@ class PlanController extends Controller
      */
     public function destroy(Plan $plan)
     {
-        //
+        $plan->delete();
+        return response()->json(['message' => 'Plan deleted successfully']);
     }
 }

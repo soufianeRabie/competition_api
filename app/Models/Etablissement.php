@@ -13,5 +13,10 @@ class Etablissement extends Model
         'users_id', 'regions_id', 'nom_efp', 'adresse', 'tel', 'ville', 'status', 'updated_at', 'created_at'
     ];
 
+    public function actions ()
+    {
+        return $this->hasMany(Action::class , 'etablissements_id');
+    }
+
     // Define relationships if any
 }

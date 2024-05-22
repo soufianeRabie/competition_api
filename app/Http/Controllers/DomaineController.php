@@ -12,7 +12,8 @@ class DomaineController extends Controller
      */
     public function index()
     {
-        //
+        $domaines = Domaine::all();
+        return response()->json($domaines);
     }
 
     /**
@@ -20,7 +21,8 @@ class DomaineController extends Controller
      */
     public function create()
     {
-        //
+        // Typically, for an API, you wouldn't need this method.
+        // The form for creating a resource would be handled by the frontend.
     }
 
     /**
@@ -28,7 +30,17 @@ class DomaineController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        $domaine = new Domaine();
+        $domaine->name = $request->name;
+        $domaine->description = $request->description;
+        $domaine->save();
+
+        return response()->json(['message' => 'Domaine created successfully', 'domaine' => $domaine], 201);
     }
 
     /**
@@ -36,7 +48,7 @@ class DomaineController extends Controller
      */
     public function show(Domaine $domaine)
     {
-        //
+        return response()->json($domaine);
     }
 
     /**
@@ -44,7 +56,8 @@ class DomaineController extends Controller
      */
     public function edit(Domaine $domaine)
     {
-        //
+        // Typically, for an API, you wouldn't need this method.
+        // The form for editing a resource would be handled by the frontend.
     }
 
     /**
@@ -52,7 +65,16 @@ class DomaineController extends Controller
      */
     public function update(Request $request, Domaine $domaine)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        $domaine->name = $request->name;
+        $domaine->description = $request->description;
+        $domaine->save();
+
+        return response()->json(['message' => 'Domaine updated successfully', 'domaine' => $domaine]);
     }
 
     /**
@@ -60,6 +82,7 @@ class DomaineController extends Controller
      */
     public function destroy(Domaine $domaine)
     {
-        //
+        $domaine->delete();
+        return response()->json(['message' => 'Domaine deleted successfully']);
     }
 }

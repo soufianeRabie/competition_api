@@ -14,3 +14,6 @@ Route::prefix('profile')->controller(ProfileSettingController::class)->group(fun
 });
 
 Route::apiResource('users', ManageUsersController::class);
+Route::get('me' , [ManageUsersController::class , 'getUser']);
+Route::put('/profiles/{profil}' , [\App\Http\Controllers\ProfilController::class , 'update']);
+Route::put('/entreprise/profile' , [\App\Http\Controllers\EntrepriseController::class , 'updateProfile']);

@@ -16,21 +16,21 @@ class Action extends Model
 
     public function entreprise()
     {
-        return $this->belongsTo(Entreprise::class, 'entreprises_id');
+        return $this->belongsTo(Entreprise::class,  'entreprise_id' , 'id');
     }
 
     public function theme()
     {
-        return $this->belongsTo(Theme::class, 'themes_id');
+        return $this->belongsTo(Theme::class, );
     }
 
     public function intervenant()
     {
-        return $this->belongsTo(Intervenant::class, 'Intervenants_id');
+        return $this->belongsTo(Intervenant::class, );
     }
 
     public function etablissement()
     {
-        return $this->belongsTo(Etablissement::class, 'etablissements_id');
+        return $this->belongsTo(Etablissement::class, );
     }
 }

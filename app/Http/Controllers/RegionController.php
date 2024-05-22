@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
 use App\Models\Region;
@@ -12,7 +13,8 @@ class RegionController extends Controller
      */
     public function index()
     {
-        //
+        $regions = Region::with('etablisments')->get();
+        return response()->json($regions);
     }
 
     /**
@@ -20,7 +22,8 @@ class RegionController extends Controller
      */
     public function create()
     {
-        //
+        // Typically, for an API, you wouldn't need this method.
+        // The form for creating a resource would be handled by the frontend.
     }
 
     /**
@@ -28,7 +31,17 @@ class RegionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        $region = new Region();
+        $region->name = $request->name;
+        $region->description = $request->description;
+        $region->save();
+
+        return response()->json(['message' => 'Region created successfully', 'region' => $region], 201);
     }
 
     /**
@@ -36,7 +49,7 @@ class RegionController extends Controller
      */
     public function show(Region $region)
     {
-        //
+        return response()->json($region);
     }
 
     /**
@@ -44,7 +57,8 @@ class RegionController extends Controller
      */
     public function edit(Region $region)
     {
-        //
+        // Typically, for an API, you wouldn't need this method.
+        // The form for editing a resource would be handled by the frontend.
     }
 
     /**
@@ -52,7 +66,16 @@ class RegionController extends Controller
      */
     public function update(Request $request, Region $region)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        $region->name = $request->name;
+        $region->description = $request->description;
+        $region->save();
+
+        return response()->json(['message' => 'Region updated successfully', 'region' => $region]);
     }
 
     /**
@@ -60,6 +83,7 @@ class RegionController extends Controller
      */
     public function destroy(Region $region)
     {
-        //
+        $region->delete();
+        return response()->json(['message' => 'Region deleted successfully']);
     }
 }

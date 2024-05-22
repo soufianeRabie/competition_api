@@ -9,15 +9,12 @@ use Illuminate\Support\Facades\Hash;
 
 class ProfileSettingController extends Controller
 {
-<<<<<<< HEAD
-       public function updatePassword(UpdatePasswordRequest $request)
-=======
+
     public function updatePassword(UpdatePasswordRequest $request)
->>>>>>> github/master
     {
         $data = $request->validated();
 
-        if (! Hash::check($data['current_password'], auth()->user()->password)) {
+        if (!Hash::check($data['current_password'], auth()->user()->password)) {
             return response()->json(false, 401);
         }
         User::query()->where('id', auth()->user()->id)->update([
@@ -28,8 +25,4 @@ class ProfileSettingController extends Controller
 
         return response()->json(true);
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> github/master

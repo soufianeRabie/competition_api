@@ -12,7 +12,8 @@ class ThemeController extends Controller
      */
     public function index()
     {
-        //
+        $themes = Theme::all();
+        return response()->json($themes);
     }
 
     /**
@@ -20,7 +21,7 @@ class ThemeController extends Controller
      */
     public function create()
     {
-        //
+        // Not needed for API controller
     }
 
     /**
@@ -28,7 +29,15 @@ class ThemeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'dimaines' => 'required|string|max:255',
+            'intitule_theme' => 'nullable|string',
+            // Add other fields validation as necessary
+        ]);
+
+        $theme = Theme::create($request->all());
+
+        return response()->json($theme, 201);
     }
 
     /**
@@ -36,7 +45,7 @@ class ThemeController extends Controller
      */
     public function show(Theme $theme)
     {
-        //
+        return response()->json($theme);
     }
 
     /**
@@ -44,7 +53,7 @@ class ThemeController extends Controller
      */
     public function edit(Theme $theme)
     {
-        //
+        // Not needed for API controller
     }
 
     /**
@@ -52,7 +61,15 @@ class ThemeController extends Controller
      */
     public function update(Request $request, Theme $theme)
     {
-        //
+        $request->validate([
+            'dimaines' => 'required|string|max:255',
+            'intitule_theme' => 'nullable|string',
+            // Add other fields validation as necessary
+        ]);
+
+        $theme->update($request->all());
+
+        return response()->json($theme);
     }
 
     /**
@@ -60,6 +77,8 @@ class ThemeController extends Controller
      */
     public function destroy(Theme $theme)
     {
-        //
+        $theme->delete();
+
+        return response()->json(null, 204);
     }
 }

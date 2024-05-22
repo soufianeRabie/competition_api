@@ -13,5 +13,11 @@ class Role extends Model
         'name', 'guard_name', 'created_at', 'updated_at'
     ];
 
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
     // Define relationships if any
 }

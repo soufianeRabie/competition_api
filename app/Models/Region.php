@@ -13,5 +13,10 @@ class Region extends Model
         'users_id', 'nom_region', 'created_at', 'updated_at'
     ];
 
+    public function etablisments()
+    {
+        return $this->hasMany(Etablissement::class , 'regions_id')->with('actions');
+    }
+
     // Define relationships if any
 }

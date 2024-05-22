@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterUserRequest;
+use App\Models\Profil;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,13 +19,22 @@ class AuthController extends Controller
 
         DB::beginTransaction();
 
-        User::create($data);
+        $data['role_id'] =$this->getEntrepriseRole();
+      $user =   User::create($data);
+        Profil::create([
+            'user_id'=>$user->id
+        ]);
 
         DB::commit();
 
-        return response()->json(true);
+       return $this->login($request);
     }
 
+    private function getEntrepriseRole()
+    {
+        $role =  Role::where('name' , 'entreprise')->first();
+        return $role->id ;
+    }
     public function login(Request $request)
     {
         $data = [
@@ -38,7 +49,7 @@ class AuthController extends Controller
         $expiresAt = app()->isLocal() ? now()->addYear() : now()->addDay();
         $token     = $request->user()->createToken($tokenName, ['*'], $expiresAt);
 
-        return response()->json(['token' => $token->plainTextToken , 'userg'=>Auth::user()]);
+        return response()->json(['token' => $token->plainTextToken , 'user'=>Auth::user()]);
     }
 
     public function logout()

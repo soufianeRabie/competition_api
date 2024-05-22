@@ -7,6 +7,7 @@ use App\Http\Requests\RegisterUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -20,6 +21,13 @@ class ManageUsersController extends Controller
     public function index()
     {
         return UserResource::collection(User::all());
+    }
+
+    public function getUser()
+    {
+        $user = Auth::user();
+
+        return response()->json($user);
     }
 
     /**
@@ -45,7 +53,7 @@ class ManageUsersController extends Controller
      */
     public function show(User $user)
     {
-        return new UserResource($user);
+        return response()->json(Auth::user());
     }
 
      /**
@@ -58,10 +66,10 @@ class ManageUsersController extends Controller
     public function update(Request $request, User $user)
     {
         $formFields = $request->all();
-        
+
         if ($request->password != null)
             $formFields['password'] = Hash::make($request->password);
-        
+
         $user->fill($formFields)->save();
 
         return new UserResource($user);

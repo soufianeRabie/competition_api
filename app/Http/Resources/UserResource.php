@@ -15,9 +15,7 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
-            'email' => $this->email,
+           'email'=>$this->email,
             'created_at' => date_format(date_create($this->created_at),'d-m-Y H:i'),
             'updated_at' => date_format(date_create($this->updated_at),'d-m-Y H:i')
         ];

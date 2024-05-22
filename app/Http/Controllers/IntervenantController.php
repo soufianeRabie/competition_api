@@ -12,7 +12,8 @@ class IntervenantController extends Controller
      */
     public function index()
     {
-        //
+        $intervenants = Intervenant::all();
+        return response()->json($intervenants);
     }
 
     /**
@@ -28,7 +29,9 @@ class IntervenantController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $invent = Intervenant::create($request->post());
+
+        return response()->json($invent);
     }
 
     /**
@@ -60,6 +63,7 @@ class IntervenantController extends Controller
      */
     public function destroy(Intervenant $intervenant)
     {
-        //
+        $intervenant->delete();
+        return response()->json(true);
     }
 }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('prenom');
             $table->string('nom');
-            $table->bigInteger('roles_id')->default(6);
+            $table->bigInteger('role_id')->default(6);
         });
     }
 

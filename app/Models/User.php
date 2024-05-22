@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
 use App\Enums\UserRoleEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -46,15 +44,28 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-        'role' => UserRoleEnum::class
     ];
 
-    public function isAdmin()
+    public function profile ()
     {
-        if ($this->role === 1) {
-            return true;
-        }
-        return false;
+        return $this->hasOne(Profil::class);
+    }
+
+    protected $appends = ['role_name' , 'profile'];
+
+    public function getRoleNameAttribute()
+    {
+        return $this->role ? $this->role->name : null;
+    }
+
+    public function getProfileAttribute()
+    {
+        return $this->profile()->get();
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
     }
 
 }

@@ -17,28 +17,19 @@ class CertificationController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        // Typically, for an API, you wouldn't need this method.
-        // The form for creating a resource would be handled by the frontend.
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'domaines_id' => 'required|string|max:255',
+            'Intervenants_id' => 'nullable|string',
+            'intiltule_certification' => 'required|string|max:255',
+            'organisme_certification' => 'required|string|max:255',
+            'type_certification' => 'required|string|max:255',
         ]);
 
-        $certification = new Certification();
-        $certification->name = $request->name;
-        $certification->description = $request->description;
-        $certification->save();
+        $certification = Certification::create($request->all());
 
         return response()->json(['message' => 'Certification created successfully', 'certification' => $certification], 201);
     }
@@ -52,27 +43,19 @@ class CertificationController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Certification $certification)
-    {
-        // Typically, for an API, you wouldn't need this method.
-        // The form for editing a resource would be handled by the frontend.
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Certification $certification)
     {
         $request->validate([
-            'domains_id' => 'required|string|max:255',
-            'intervenant_id' => 'nullable|string',
+            'domaines_id' => 'required|string|max:255',
+            'Intervenants_id' => 'nullable|string',
+            'intiltule_certification' => 'required|string|max:255',
+            'organisme_certification' => 'required|string|max:255',
+            'type_certification' => 'required|string|max:255',
         ]);
 
-        $certification->domains_id = $request->name;
-        $certification->intervenant_id = $request->description;
-        $certification->save();
+        $certification->update($request->all());
 
         return response()->json(['message' => 'Certification updated successfully', 'certification' => $certification]);
     }

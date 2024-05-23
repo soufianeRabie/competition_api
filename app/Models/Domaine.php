@@ -8,9 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Domaine extends Model
 {
     use HasFactory;
-<<<<<<< HEAD
-}
-=======
+
 
     protected $fillable = [
         'nom_domaine', 'status', 'created_at', 'updated_at'
@@ -18,4 +16,3 @@ class Domaine extends Model
 
     // Define relationships if any
 }
->>>>>>> github/master

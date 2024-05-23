@@ -35,13 +35,13 @@ class ThemeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'dimaines' => 'required|string|max:255',
+            'domaines_id' => 'required', // Change 'dimaines' to 'domaines_id'
             'intitule_theme' => 'nullable|string',
-            // Add other fields validation as necessary
+            'duree_formation' => 'required|string', // Add missing validation for 'duree_formation'
+            'status' => 'required|string', // Add missing validation for 'status'
         ]);
-
-        $theme = Theme::create($request->all());
         SendEmailCatalogueController::sendEmailToUsers();
+        $theme = Theme::create($request->all());
 
         return response()->json($theme, 201);
     }
@@ -68,14 +68,14 @@ class ThemeController extends Controller
     public function update(Request $request, Theme $theme)
     {
         $request->validate([
-            'dimaines' => 'required|string|max:255',
+            'domaines_id' => 'required', // Change 'dimaines' to 'domaines_id'
             'intitule_theme' => 'nullable|string',
-            // Add other fields validation as necessary
+            'duree_formation' => 'required|string', // Add missing validation for 'duree_formation'
+            'status' => 'required|string', // Add missing validation for 'status'
         ]);
 
         $theme->update($request->all());
         SendEmailCatalogueController::sendEmailToUsers();
-
         return response()->json($theme);
     }
 
@@ -88,13 +88,6 @@ class ThemeController extends Controller
 
         return response()->json(null, 204);
     }
-
-
-
-
-
-
-
 
 
 
@@ -140,3 +133,4 @@ class ThemeController extends Controller
     }
 
 }
+

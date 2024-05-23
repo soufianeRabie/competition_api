@@ -1,6 +1,13 @@
 <?php
 
+use App\Http\Controllers\ActionController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CertificationController;
+use App\Http\Controllers\CompetenceController;
+use App\Http\Controllers\InitalController;
+use App\Http\Controllers\IntervenantController;
+use App\Http\Controllers\RegionController;
+use App\Http\Controllers\ThemeController;
 use Illuminate\Support\Facades\Route;
 
 /*

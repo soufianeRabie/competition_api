@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Action;
+use App\Models\Domaine;
 use App\Models\Entreprise;
 use App\Models\Etablissement;
 use App\Models\Intervenant;
@@ -32,6 +33,8 @@ class InitalController extends Controller
         $themes = Theme::all();
         $entreprises = Entreprise::all();
         $actions = Action::with(['etablissement' ,'intervenant' ,'theme' ,'entreprise'])->get();
+        $domaines = Domaine::all();
+
 
         // Handle case where user might not have a region
         $intervenants = [];
@@ -47,6 +50,7 @@ class InitalController extends Controller
             'users' => $users,
             'etablissements' => $etablissements,
             'regions' => $regions,
+            'domaines'=>$domaines,
             'themes' => $themes,
             'intervenants' => $intervenants,
             'user'=>$user,

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Intervenant;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class IntervenantController extends Controller
 {
@@ -29,17 +30,31 @@ class IntervenantController extends Controller
      */
     public function store(Request $request)
     {
-        $invent = Intervenant::create($request->post());
+        $validatedData = $request->validate([
+            'etablissements_id' => 'required|integer',
+            'users_id' => 'required|integer',
+            'matricule' => 'required|string|max:255',
+            'nom' => 'required|string|max:255',
+            'datenaissance' => 'required|date',
+            'intitule_diplome' => 'required|string|max:255',
+            'type_diplome' => 'required|string|max:255',
+            'specialite_diplome' => 'required|string|max:255',
+            'type_intervenant' => 'required|string|max:255',
+            'status' => 'required|string|max:255',
+        ]);
 
-        return response()->json($invent);
+        $intervenant = Intervenant::create($validatedData);
+
+        return response()->json($intervenant, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Intervenant $intervenant)
+    public function show($id)
     {
-        //
+        $intervenant = Intervenant::findOrFail($id);
+        return response()->json($intervenant);
     }
 
     /**
@@ -53,17 +68,40 @@ class IntervenantController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Intervenant $intervenant)
+    public function update(Request $request, $id)
     {
-        //
+        $validatedData = $request->validate([
+            'etablissements_id' => 'sometimes|required|integer',
+            'users_id' => 'sometimes|required|integer',
+            'matricule' => 'sometimes|required|string|max:255',
+            'nom' => 'sometimes|required|string|max:255',
+            'datenaissance' => 'sometimes|required|date',
+            'intitule_diplome' => 'sometimes|required|string|max:255',
+            'type_diplome' => 'sometimes|required|string|max:255',
+            'specialite_diplome' => 'sometimes|required|string|max:255',
+            'type_intervenant' => 'sometimes|required|string|max:255',
+            'status' => 'sometimes|required|string|max:255',
+        ]);
+
+        $intervenant = Intervenant::findOrFail($id);
+        $intervenant->update($validatedData);
+
+        return response()->json($intervenant);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Intervenant $intervenant)
+    public function destroy($id)
     {
+        $intervenant = Intervenant::findOrFail($id);
         $intervenant->delete();
-        return response()->json(true);
+        return response()->json(null, 204);
+    }
+
+    public function getPotentialIntervenants()
+    {
+        $intervenants = Intervenant::where('type_intervenant', 1)->get();
+        return response()->json($intervenants);
     }
 }

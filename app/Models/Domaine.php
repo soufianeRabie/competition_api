@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Domaine extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'nom_domaine', 'status', 'created_at', 'updated_at'
     ];
@@ -18,4 +19,3 @@ class Domaine extends Model
         return $this->hasMany(Theme::class , );
     }
 }
-

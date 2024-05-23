@@ -19,12 +19,19 @@ Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
 
+Route::get('getInit' ,[InitalController::class ,'init'] );
+Route::resources([
+    'intervenants'=>IntervenantController::class,
+    'actions'=>ActionController::class,
+    'regions'=>RegionController::class,
+    'certifications'=>CertificationController::class,
+    'themes'=>ThemeController::class,
+    'competences'=>CompetenceController::class,
+]);
+// Route::post('/themes/{themeId}/assignIntervenants', [ThemeIntervenantController::class, 'assignIntervenants']);
 
-Route::post('password/email', [\App\Http\Controllers\ResetPasswordController::class, 'sendResetLinkEmail']);
-Route::post('password/reset', [\App\Http\Controllers\ResetPasswordController::class, 'reset']);
+// Route::get('/themeIntervenants', [ThemeIntervenantController::class, 'themeIntervenants']);
 
-Route::get('/catalogue/download', [\App\Http\Controllers\ThemeController::class, 'generatePDF'])->name('catalogue.download');
-//Route::get('/catalogue/qrcode', [CatalogueController::class, 'showQRCode'])->name('catalogue.qrcode');
+Route::get('/themes', [ThemeController::class, 'index']);
 
-
-
+Route::get('/intervenants/potential', [IntervenantController::class, 'getPotentialIntervenants']);

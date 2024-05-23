@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Action;
+use App\Models\Entreprise;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ActionController extends Controller
 {
@@ -12,10 +14,18 @@ class ActionController extends Controller
      */
     public function index()
     {
-        $actions = Action::with(['entreprise' , 'etablissement' , 'intervenant'])->get();
+        $actions = Action::with(['entreprise' , 'etablissement' , 'intervenant' , 'theme.domain'])->get();
 
 
         return response()->json($actions);
+    }
+
+    public function validateAction (Action $action)
+    {
+        $action->status = !$action->status;
+        $action->save();
+
+        return response()->json(true);
     }
 
     /**
@@ -31,7 +41,17 @@ class ActionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $action = $request->post();
+        $user = Auth::user();
+//        return response()->json($user->id);
+
+        $entreprise= Entreprise::where('user_id' ,$user->id )->first();
+        $action ['entreprises_id']  = $entreprise->id;
+        Action::create($action);
+
+
+        return response()->json($action);
     }
 
     /**
@@ -63,6 +83,9 @@ class ActionController extends Controller
      */
     public function destroy(Action $action)
     {
-        //
+        $action->delete();
+
+
+        return response()->json(true);
     }
 }

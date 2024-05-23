@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterUserRequest;
+use App\Models\Entreprise;
 use App\Models\Profil;
 use App\Models\Role;
 use App\Models\User;
@@ -22,6 +23,9 @@ class AuthController extends Controller
         $data['role_id'] =$this->getEntrepriseRole();
       $user =   User::create($data);
         Profil::create([
+            'user_id'=>$user->id
+        ]);
+        $entreprise = Entreprise::create([
             'user_id'=>$user->id
         ]);
 

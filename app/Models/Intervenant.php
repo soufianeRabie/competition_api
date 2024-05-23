@@ -14,5 +14,15 @@ class Intervenant extends Model
         'type_diplome', 'specialite_diplome', 'type_intervenant', 'status', 'created_at', 'updated_at'
     ];
 
-    // Define relationships if any
+
+public function etablisment()
+{
+    return $this->belongsTo(Etablissement::class , 'id' , 'etablissements_id');
+}// Define relationships if any
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class , 'id' , 'users_id');
+    }
 }

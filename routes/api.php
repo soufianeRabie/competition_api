@@ -19,11 +19,12 @@ Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
 
-Route::get('getInit' ,[\App\Http\Controllers\InitalController::class ,'init'] );
-Route::resources([
-    'intervenants'=>\App\Http\Controllers\IntervenantController::class,
-    'actions'=>\App\Http\Controllers\ActionController::class,
-    'regions'=>\App\Http\Controllers\RegionController::class
-]);
+
+Route::post('password/email', [\App\Http\Controllers\ResetPasswordController::class, 'sendResetLinkEmail']);
+Route::post('password/reset', [\App\Http\Controllers\ResetPasswordController::class, 'reset']);
+
+Route::get('/catalogue/download', [\App\Http\Controllers\ThemeController::class, 'generatePDF'])->name('catalogue.download');
+//Route::get('/catalogue/qrcode', [CatalogueController::class, 'showQRCode'])->name('catalogue.qrcode');
+
 
 

@@ -15,8 +15,13 @@ class Etablissement extends Model
 
     public function actions ()
     {
-        return $this->hasMany(Action::class , 'etablissements_id');
+        return $this->hasMany(Action::class , 'etablissements_id')->with(['entreprise' ,'etablissement' , 'intervenant' ,'theme']);
     }
 
+
+    public function intervenant ()
+    {
+        return $this->hasOne(Intervenant::class , 'etablissements_id');
+    }
     // Define relationships if any
 }

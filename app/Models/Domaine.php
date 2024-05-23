@@ -8,14 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Domaine extends Model
 {
     use HasFactory;
-<<<<<<< HEAD
-}
-=======
-
     protected $fillable = [
         'nom_domaine', 'status', 'created_at', 'updated_at'
     ];
 
-    // Define relationships if any
+
+    public  function theme()
+    {
+        return $this->hasMany(Theme::class , );
+    }
 }
->>>>>>> github/master
+

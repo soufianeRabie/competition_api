@@ -46,26 +46,51 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function getEntrepriseAttribute()
+    {
+        return $this->entreprise()->first();
+    }
+    public function entreprise()
+    {
+        return $this->hasOne(Entreprise::class , 'user_id');
+
+    }
     public function profile ()
     {
         return $this->hasOne(Profil::class);
     }
 
-    protected $appends = ['role_name' , 'profile'];
+
+    protected $appends = ['role_name' , 'profile' , 'intervenant' ,'entreprise' ];
 
     public function getRoleNameAttribute()
     {
         return $this->role ? $this->role->name : null;
     }
 
+    public function getIntervenantAttribute()
+    {
+        return $this->intervenant()->first();
+    }
+    public function intervenant()
+    {
+        return $this->hasOne(Intervenant::class , 'users_id');
+
+    }
+
     public function getProfileAttribute()
     {
-        return $this->profile()->get();
+        return $this->profile()->first();
     }
 
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    public function region()
+    {
+        return $this->hasOne(Region::class , 'users_id');
     }
 
 }

@@ -15,7 +15,13 @@ class Region extends Model
 
     public function etablisments()
     {
-        return $this->hasMany(Etablissement::class , 'regions_id')->with('actions');
+        return $this->hasMany(Etablissement::class , 'regions_id')->with(['actions' , 'intervenant']);
+    }
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class , 'id' , 'users_id');
     }
 
     // Define relationships if any

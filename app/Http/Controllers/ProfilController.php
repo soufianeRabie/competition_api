@@ -29,13 +29,20 @@ class ProfilController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+
+        $formFields = $request->post();
+        $formFields['user_id'] = Auth::user()->id ;
+
+        Profil::create($formFields);
+
+        return response()->json(array('profile' => $formFields));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Profil $profil)
+    public function show(Profil $profile)
     {
         //
     }
@@ -43,7 +50,7 @@ class ProfilController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Profil $profil)
+    public function edit(Profil $profile)
     {
         //
     }
@@ -51,7 +58,7 @@ class ProfilController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Profil $profil)
+    public function update(Request $request, Profil $profile)
     {
         $fillable = $request->only([
             'prenom',
@@ -64,17 +71,17 @@ class ProfilController extends Controller
 
         $fillable['user_id'] = Auth::user()->id;
 
-        $profil->fill($fillable);
-        $profil->save();
+        $profile->fill($fillable);
+        $profile->save();
 
 
-        return response()->json($profil);
+        return response()->json($profile);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Profil $profil)
+    public function destroy(Profil $profile)
     {
         //
     }

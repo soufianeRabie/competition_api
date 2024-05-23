@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ManageUserRequest;
 use App\Http\Requests\RegisterUserRequest;
 use App\Http\Resources\UserResource;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,21 @@ class ManageUsersController extends Controller
     public function index()
     {
         return UserResource::collection(User::all());
+    }
+
+    public function updateRole(Request $request , User $user)
+    {
+
+        $role = Role::where('name' , $request->input('role'))->first();
+        if($role)
+        {
+            $user['role_id'] = $role->id ;
+            $user->save();
+
+            return response()->json(true);
+        }
+
+        return response()->json(false);
     }
 
     public function getUser()

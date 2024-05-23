@@ -13,7 +13,18 @@ Route::prefix('profile')->controller(ProfileSettingController::class)->group(fun
     Route::put('change-password', 'updatePassword');
 });
 
+Route::put('/actions/validate/{action}' , [\App\Http\Controllers\ActionController::class , 'validateAction'] );
+
 Route::apiResource('users', ManageUsersController::class);
 Route::get('me' , [ManageUsersController::class , 'getUser']);
-Route::put('/profiles/{profil}' , [\App\Http\Controllers\ProfilController::class , 'update']);
+Route::resources([
+    'intervenants'=>\App\Http\Controllers\IntervenantController::class,
+    'actions'=>\App\Http\Controllers\ActionController::class,
+    'regions'=>\App\Http\Controllers\RegionController::class,
+    'profiles'=>\App\Http\Controllers\ProfilController::class
+]);
 Route::put('/entreprise/profile' , [\App\Http\Controllers\EntrepriseController::class , 'updateProfile']);
+Route::get('getInit' ,[\App\Http\Controllers\InitalController::class ,'init'] );
+
+Route::post('/users/role/{user}' , [ManageUsersController::class , 'updateRole']);
+

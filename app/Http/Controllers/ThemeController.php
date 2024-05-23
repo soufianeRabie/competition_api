@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Plan;
 use App\Models\Theme;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Http\Request;
+use Endroid\QrCode\Builder\Builder;
 
+use PDF;
 class ThemeController extends Controller
 {
     /**
@@ -36,6 +41,7 @@ class ThemeController extends Controller
         ]);
 
         $theme = Theme::create($request->all());
+        SendEmailCatalogueController::sendEmailToUsers();
 
         return response()->json($theme, 201);
     }
@@ -68,6 +74,7 @@ class ThemeController extends Controller
         ]);
 
         $theme->update($request->all());
+        SendEmailCatalogueController::sendEmailToUsers();
 
         return response()->json($theme);
     }
@@ -81,4 +88,55 @@ class ThemeController extends Controller
 
         return response()->json(null, 204);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function generatePDF()
+    {
+        $themes = Theme::with('domain')->get();
+
+        // Generate QR code
+        $qrCode = self::generateQrCode((env('APP_CATALOGUE_URL')));
+
+        $qrCodeImage = $qrCode->getDataUri();
+
+        $pdf = Pdf::loadView('catalogue', compact('themes', 'qrCodeImage'));
+        return $pdf->download('catalogue.pdf');
+    }
+
+    public static function generateQrCode($content)
+    {
+        return Builder::create()
+            ->data($content)
+            ->size(300)
+            ->build();
+    }
+
+
+    public static function generateQrCodeUrl($url)
+    {
+        $qrCode = QrCode::create($url);
+        $writer = new PngWriter();
+        $result = $writer->write($qrCode);
+        $dataUri = $result->getDataUri(); // Get the base64-encoded string
+
+        return $dataUri;
+    }
+
 }

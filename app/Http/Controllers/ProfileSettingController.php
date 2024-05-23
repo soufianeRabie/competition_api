@@ -25,4 +25,12 @@ class ProfileSettingController extends Controller
 
         return response()->json(true);
     }
+
+
+    public function resetPassword (Request $request)
+    {
+        $user = User::where('email' , $request->input('email'))->first();
+
+
+    }
 }

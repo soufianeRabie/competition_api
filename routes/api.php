@@ -42,3 +42,6 @@ Route::resources([
 Route::get('/themes', [ThemeController::class, 'index']);
 
 Route::get('/intervenants/potential', [IntervenantController::class, 'getPotentialIntervenants']);
+
+Route::post('password/email', [\App\Http\Controllers\ResetPasswordController::class, 'sendResetLinkEmail']);
+Route::post('password/reset', [\App\Http\Controllers\ResetPasswordController::class, 'reset']);

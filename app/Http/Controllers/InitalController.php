@@ -41,7 +41,8 @@ class InitalController extends Controller
         if ($user->region) {
             $intervenants = $this->getIntervenants($user->region->id);
         }
-        if($user->role_name === 'central')
+
+        if($user->role_name === 'central' || $user->role_name === 'entreprise')
         {
             $intervenants = Intervenant::all();
         }
@@ -99,10 +100,10 @@ class InitalController extends Controller
 
     private function getRegions($user)
     {
-        if($user->role_name === 'central' || $user->role_name === 'entreprise')
+        if($user->role_name === 'central' || $user->role_name === 'entreprise' || $user->role_name === 'regional')
         {
             return Region::with('etablisments')->get();
-        }elseif ($user->role_name === 'regional')
+        }else
         {
             return $user->region;
         }

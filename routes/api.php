@@ -25,23 +25,24 @@ use Illuminate\Support\Facades\Route;
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
-
-Route::get('getInit' ,[InitalController::class ,'init'] );
-Route::resources([
-    'intervenants'=>IntervenantController::class,
-    'actions'=>ActionController::class,
-    'regions'=>RegionController::class,
-    'certifications'=>CertificationController::class,
-    'themes'=>ThemeController::class,
-    'competences'=>CompetenceController::class,
-]);
+//
+//Route::get('getInit' ,[InitalController::class ,'init'] );
+//Route::resources([
+//    'intervenants'=>IntervenantController::class,
+//    'actions'=>ActionController::class,
+//    'regions'=>RegionController::class,
+//    'certifications'=>CertificationController::class,
+//    'themes'=>ThemeController::class,
+//    'competences'=>CompetenceController::class,
+//]);
 // Route::post('/themes/{themeId}/assignIntervenants', [ThemeIntervenantController::class, 'assignIntervenants']);
 
 // Route::get('/themeIntervenants', [ThemeIntervenantController::class, 'themeIntervenants']);
 
-Route::get('/themes', [ThemeController::class, 'index']);
+
 
 Route::get('/intervenants/potential', [IntervenantController::class, 'getPotentialIntervenants']);
 
 Route::post('password/email', [\App\Http\Controllers\ResetPasswordController::class, 'sendResetLinkEmail']);
 Route::post('password/reset', [\App\Http\Controllers\ResetPasswordController::class, 'reset']);
+Route::get('/catalogue/download' , [ThemeController::class ,'generatePDF']);

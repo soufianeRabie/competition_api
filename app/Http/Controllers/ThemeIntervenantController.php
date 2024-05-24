@@ -13,16 +13,16 @@ class ThemeIntervenantController extends Controller
     /**
      * Assign intervenants to a theme.
      */
-    public function assignIntervenants(Request $request, $themeId)
+    public function assignIntervenants(Request $request)
     {
         // Validate the overall structure of the request data
-        $request->validate([
-            'intervenants' => 'required|array',
-            'intervenants.*.id' => 'required|exists:intervenants,id',
-            'intervenants.*.type_intervenant' => 'required|string|in:interne,externe',
-        ]);
+//        $request->validate([
+//            'intervenants' => 'required|array',
+//            'intervenants.*.id' => 'required|exists:intervenants,id',
+//        ]);
 
-        $intervenants = $request->input('intervenants');
+        $intervenant = $request->input('intervenant_id');
+        $themeId = $request->input('theme_id');
 
         // Ensure the theme exists
         $theme = Theme::find($themeId);
@@ -31,14 +31,10 @@ class ThemeIntervenantController extends Controller
         }
 
         // Loop through each intervenant and associate them with the theme
-        foreach ($intervenants as $intervenant) {
-            ThemeIntervenant::create([
-                'theme_id' => $themeId,
-                'intervenant_id' => $intervenant['id'],
-                'type_intervenant' => $intervenant['type_intervenant'],
-            ]);
-        }
-
+        ThemeIntervenant::create([
+            'theme_id' => $themeId,
+            'intervenant_id' => $intervenant,
+        ]);
         return response()->json(['message' => 'Intervenants assignés avec succès au thème.']);
     }
 

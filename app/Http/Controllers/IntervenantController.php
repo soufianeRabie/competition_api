@@ -6,7 +6,7 @@ use App\Models\Intervenant;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
-class IntervenantController extends Controller
+class aIntervenantController extends Controller
 {
     /**
      * Display a listing of the resource.
